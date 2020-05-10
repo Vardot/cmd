@@ -9,7 +9,7 @@
 ## -----------------------------------------------------------------------------
 ## cd /var/www/html/
 ## Run the following command.
-## wget -O - https://raw.githubusercontent.com/Vardot/cmd/master/behat_ui_devshop.sh | bash
+## bash <(wget -O - https://raw.githubusercontent.com/Vardot/cmd/master/behat_ui_devshop.sh)
 ##------------------------------------------------------------------------------
 ##
 ##
