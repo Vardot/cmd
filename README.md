@@ -3,7 +3,7 @@
 ### Setup Behat UI module and configs for DevShop projects.
 1. Go to the project directory:
 ```
-/var/aegir/projects
+cd /var/aegir/projects
 ```
 2. Run the interactive command: 
 ```
