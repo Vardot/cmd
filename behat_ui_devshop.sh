@@ -17,7 +17,7 @@
 
 echo "                                                                      ";
 echo "######################################################################";
-echo "#                     DevShop Setup Behat UI                         #";
+echo "#                     Behat UI DevShop                               #";
 echo "######################################################################";
 echo "                                                                      ";
 
@@ -72,9 +72,8 @@ done
 cd $devshop_local_project_path ;
 
 ## Add Behat UI module by composer.
-# composer require 'drupal/behat_ui:^3.0' ;
+composer require 'drupal/behat_ui:^3.0' ;
 
 ## Web Get devshop_behat_ui.
 devshop_behat_ui_latest_tag="1.0.0";
-
-sudo wget -c https://bitbucket.org/Vardot/devshop_behat_ui/get/${devshop_behat_ui_latest_tag}.tar.gz  && tar -xzf ${devshop_behat_ui_latest_tag}.tar.gz
+sudo wget -c https://bitbucket.org/Vardot/devshop_behat_ui/get/${devshop_behat_ui_latest_tag}.tar.gz  && tar -xzf ${devshop_behat_ui_latest_tag}.tar.gz ;
