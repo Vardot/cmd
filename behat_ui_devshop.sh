@@ -75,7 +75,7 @@ composer require 'drupal/behat_ui:^3.0' ;
 ## Download devshop_behat_ui.
 version="1.0.1";
 wget https://bitbucket.org/Vardot/devshop_behat_ui/get/${version}.zip -O /tmp/devshop_behat_ui-${version}.zip;
-unzip -j /tmp/devshop_behat_ui-${version}.zip -d "/tmp/devshop_behat_ui-${version}";
+unzip -j /tmp/devshop_behat_ui-${version}.zip -d /tmp/devshop_behat_ui-${version};
 cp -r /tmp/devshop_behat_ui-${version}/features ${devshop_local_project_path}/;
 cp /tmp/devshop_behat_ui-${version}/behat.yml ${devshop_local_project_path}/;
 rm -rf /tmp/devshop_behat_ui-${version}.zip /tmp/devshop_behat_ui-${version} 
