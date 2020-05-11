@@ -73,7 +73,7 @@ cd $devshop_local_project_path ;
 composer require 'drupal/behat_ui:^3.0' ;
 
 ## Download devshop_behat_ui.
-version="1.0.1";
+version="1.0.2";
 if [[ -f "${devshop_local_project_path}/${version}.tar.gz" ]]; then
   rm ${devshop_local_project_path}/${version}.tar.gz ;
 fi
