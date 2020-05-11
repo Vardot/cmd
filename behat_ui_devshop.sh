@@ -72,8 +72,8 @@ cd $devshop_local_project_path ;
 ## Add Behat UI module by composer.
 composer require 'drupal/behat_ui:^3.0' ;
 
-## Download devshop_behat_ui.
-version="1.0.2";
+## Download devshop_behat_ui and place target folders and files.
+version="1.0.3";
 if [[ -f "${devshop_local_project_path}/${version}.tar.gz" ]]; then
   rm ${devshop_local_project_path}/${version}.tar.gz ;
 fi
@@ -93,7 +93,9 @@ fi
 wget https://bitbucket.org/Vardot/devshop_behat_ui/get/${version}.tar.gz;
 mkdir ${devshop_local_project_path}/${version};
 tar -xzvf ${devshop_local_project_path}/${version}.tar.gz --strip 1 --directory=${devshop_local_project_path}/${version};
+## Place features folder in its target path.
 mv ${devshop_local_project_path}/${version}/features ${devshop_local_project_path}/features;
+## Place behat.yml file in its target path.
 mv ${devshop_local_project_path}/${version}/behat.yml ${devshop_local_project_path}/behat.yml;
 sudo rm -rf ${devshop_local_project_path}/${version}.tar.gz ${devshop_local_project_path}/${version} ;
 sudo rm -rf ${devshop_local_project_path}/wget-log* ;
