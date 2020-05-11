@@ -80,7 +80,6 @@ fi
 
 if [[ -d "${devshop_local_project_path}/${version}" ]]; then
   sudo rm -rf ${devshop_local_project_path}/${version} ;
-  mkdir ${devshop_local_project_path}/${version}
 fi
 
 if [[ -f "${devshop_local_project_path}/behat.yml" ]]; then
@@ -92,8 +91,15 @@ if [[ -d "${devshop_local_project_path}/features" ]]; then
 fi
 
 wget https://bitbucket.org/Vardot/devshop_behat_ui/get/${version}.tar.gz;
+mkdir ${devshop_local_project_path}/${version};
+tar -xzvf ${devshop_local_project_path}/${version}.tar.gz --strip 1 --directory=${devshop_local_project_path}/${version};
+mv ${devshop_local_project_path}/${version}/features ${devshop_local_project_path}/features;
+mv ${devshop_local_project_path}/${version}/behat.yml ${devshop_local_project_path}/behat.yml;
+sudo rm -rf ${devshop_local_project_path}/${version}.tar.gz ${devshop_local_project_path}/${version} ;
+sudo rm -rf ${devshop_local_project_path}/wget-log* ;
 
-tar -xzvf ${devshop_local_project_path}/${version}.tar.gz ${devshop_local_project_path}/${version}
-mv ${devshop_local_project_path}/${version}/*/features ${devshop_local_project_path}/features;
-mv ${devshop_local_project_path}/${version}/*/behat.yml ${devshop_local_project_path}/behat.yml;
-rm -rf ${devshop_local_project_path}/${version}.tar.gz ${devshop_local_project_path}/${version} 
+# Replace all PROJECT_NAME with the machine name of the DevShop project.
+grep -rl 'PROJECT_NAME' ${devshop_local_project_path}/features | xargs sed -i "s/PROJECT_NAME/${devshop_project_name}/g" ;
+
+# Replace all ENVIRONMENTNAME with the machine name of DevShop environment.
+grep -rl 'ENVIRONMENTNAME' ${devshop_local_project_path}/features | xargs sed -i "s/ENVIRONMENTNAME/${devshop_environment_name}/g" ;
