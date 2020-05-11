@@ -15,11 +15,11 @@
 ##
 ################################################################################
 
-echo "                                                                      ";
-echo "######################################################################";
-echo "#                     Behat UI DevShop                               #";
-echo "######################################################################";
-echo "                                                                      ";
+echo "                                                                        ";
+echo "  ######################################################################";
+echo "  #                     Behat UI DevShop                               #";
+echo "  ######################################################################";
+echo "                                                                        ";
 
 
 ## Grab local development directory path for the project argument.
@@ -74,6 +74,14 @@ composer require 'drupal/behat_ui:^3.0' ;
 
 ## Download devshop_behat_ui.
 version="1.0.1";
+if [[ -f "/tmp/devshop_behat_ui-${version}.zip" ]]; then
+  rm /tmp/devshop_behat_ui-${version}.zip
+fi
+
+if [[ -d "/tmp/devshop_behat_ui-${version}" ]]; then
+  rm /tmp/devshop_behat_ui-${version}
+fi
+
 wget https://bitbucket.org/Vardot/devshop_behat_ui/get/${version}.zip -O /tmp/devshop_behat_ui-${version}.zip;
 unzip -j /tmp/devshop_behat_ui-${version}.zip -d /tmp/devshop_behat_ui-${version};
 cp -r /tmp/devshop_behat_ui-${version}/features ${devshop_local_project_path}/;
