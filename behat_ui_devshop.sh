@@ -70,7 +70,7 @@ done
 cd $devshop_local_project_path ;
 
 ## Add Behat UI module by composer.
-composer require 'drupal/behat_ui:^3.0' ;
+composer require 'drupal/behat_ui:~4.0' ;
 
 ## Download devshop_behat_ui and place target folders and files.
 version="1.0.4";
