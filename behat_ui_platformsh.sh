@@ -74,7 +74,7 @@ done
 unset platformsh_project_base_url;
 while [[ ! ${platformsh_project_base_url} =~ $url_format ]]; do
 
-  read -p "Project base url ( https://##-####-######.###.platformsh.site ):" platformsh_project_base_url;
+  read -p "Project base url ( https://##-####-######.###.platformsh.site ): " platformsh_project_base_url;
 
   if [[ ! ${platformsh_project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
@@ -119,7 +119,7 @@ sudo rm -rf ${platformsh_local_project_path}/${version}.tar.gz ${platformsh_loca
 sudo rm -rf ${platformsh_local_project_path}/wget-log* ;
 
 # Replace all PROJECT_NAME with the machine name of the Platform.sh project folder name.
-grep -rl 'PROJECT_NAME' ${platformsh_local_project_path}/features | xargs sed -i "s/PROJECT_NAME/${platformsh_project_name}/g" ;
+grep -rl 'PROJECT_NAME' ${platformsh_local_project_path}/features | xargs sed -i "s|PROJECT_NAME|${platformsh_project_name}|g" ;
 
 # Replace all PROJECT_BASE_URL  of Platform.sh Project URL.
-grep -rl 'PROJECT_BASE_URL' ${platformsh_local_project_path}/features | xargs sed -i "s/PROJECT_BASE_URL/${platformsh_project_base_url}/g" ;
+grep -rl 'PROJECT_BASE_URL' ${platformsh_local_project_path}/features | xargs sed -i "s|PROJECT_BASE_URL|${platformsh_project_base_url}|g" ;
