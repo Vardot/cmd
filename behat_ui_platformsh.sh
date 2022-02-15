@@ -34,8 +34,7 @@ domain_format='[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]';
 unset platformsh_local_project_path ;
 while [[ ! -d "${platformsh_local_project_path}" ]]; do
 
-  echo "Full local project path:";
-  read platformsh_local_project_path;
+  read -p "Full local project path: " platformsh_local_project_path;
 
   if [[ ! -d "${platformsh_local_project_path}" ]]; then
     echo "---------------------------------------------------------------------------";
@@ -49,12 +48,11 @@ done
 unset platformsh_project_name ;
 while [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; do
 
-  echo "Project machine name:";
-  read platformsh_project_name;
+  read -p "Project machine name: " platformsh_project_name;
 
   if [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; then
     echo "---------------------------------------------------------------------------";
-    echo "  platformsh Project Machine Name is not a valid project name!";
+    echo "  Platform.sh Project Machine Name is not a valid project name!";
     echo "---------------------------------------------------------------------------";
   fi
 done
@@ -63,8 +61,7 @@ done
 unset platformsh_project_base_url;
 while [[ ! ${platformsh_project_base_url} =~ $url_format ]]; do
 
-  echo "Project base url:";
-  read platformsh_project_base_url;
+  read -p "Project machine name: " platformsh_project_base_url;
 
   if [[ ! ${platformsh_project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
