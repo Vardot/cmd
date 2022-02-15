@@ -21,6 +21,11 @@ echo "  #                     Behat UI Platform.sh                           #";
 echo "  ######################################################################";
 echo "                                                                        ";
 
+current_path=$(pwd);
+IFS=/ 
+current_project_name_from_path=${current_path[-1]}
+IFS= 
+
 ## Project machine name.
 project_machine_name='^[A-Za-z][A-Za-z0-9_]*$';
 
@@ -34,7 +39,12 @@ domain_format='[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]';
 unset platformsh_local_project_path ;
 while [[ ! -d "${platformsh_local_project_path}" ]]; do
 
-  read -p "Full local project path: " platformsh_local_project_path;
+  read -p "Full local project path (${current_path}): " platformsh_local_project_path;
+
+  if [ -z "$platformsh_local_project_path" ]
+  then
+    platformsh_local_project_path=${current_path};
+  fi
 
   if [[ ! -d "${platformsh_local_project_path}" ]]; then
     echo "---------------------------------------------------------------------------";
@@ -48,7 +58,12 @@ done
 unset platformsh_project_name ;
 while [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; do
 
-  read -p "Project machine name: " platformsh_project_name;
+  read -p "Project machine name (${current_project_name_from_path}): " platformsh_project_name;
+
+  if [ -z "$platformsh_project_name" ]
+  then
+    platformsh_project_name=${current_project_name_from_path};
+  fi
 
   if [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; then
     echo "---------------------------------------------------------------------------";
@@ -61,7 +76,7 @@ done
 unset platformsh_project_base_url;
 while [[ ! ${platformsh_project_base_url} =~ $url_format ]]; do
 
-  read -p "Project machine name: " platformsh_project_base_url;
+  read -p "Project base url ( https://##-####-######.###.platformsh.site ):" platformsh_project_base_url;
 
   if [[ ! ${platformsh_project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
