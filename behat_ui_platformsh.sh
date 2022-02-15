@@ -145,7 +145,7 @@ grep -rl "PLATFORMSH_PROJECT_PATH" ${platformsh_local_project_path}/features | x
 grep -rl "PROJECT_NAME" ${platformsh_local_project_path}/features | xargs sed -i "s|PROJECT_NAME|${platformsh_project_name}|g" ;
 
 # Replace PROJECT_BASE_URL of Platform.sh Project URL.
-grep -rl "PROJECT_BASE_URL" ${platformsh_local_project_path}/features | xargs sed -i "s|PROJECT_BASE_URL|${platformsh_project_base_url}|g" ;
+sed -i "s|PROJECT_BASE_URL|${platformsh_project_base_url}|g" ${platformsh_local_project_path}/behat.yml;
 
 # Replace SELENIUM_HOST with the current selected selenium host domain.
-grep -rl "SELENIUM_HOST" ${platformsh_local_project_path}/features | xargs sed -i "s|SELENIUM_HOST|${platformsh_selenium_host}|g" ;
+sed -i "s|SELENIUM_HOST|${platformsh_selenium_host}|g" ${platformsh_local_project_path}/behat.yml;
