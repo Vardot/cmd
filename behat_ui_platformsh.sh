@@ -21,8 +21,14 @@ echo "  #                     Behat UI Platform.sh                           #";
 echo "  ######################################################################";
 echo "                                                                        ";
 
+## Project machine name.
+project_machine_name='^[A-Za-z][A-Za-z0-9_]*$';
+
 ## Absolute IRIs (internationalized) URL format.
 url_format='(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]';
+
+## Domain name format with no protocal.
+domain_format='[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]';
 
 ## Grab local development directory path for the project argument.
 unset platformsh_local_project_path ;
@@ -41,26 +47,26 @@ done
 
 ## Grab platformsh project machine name argument.
 unset platformsh_project_name ;
-while [[ ! ${platformsh_project_name} =~ ^[A-Za-z][A-Za-z0-9_]*$ ]]; do
+while [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; do
 
   echo "Project machine name:";
   read platformsh_project_name;
 
-  if [[ ! ${platformsh_project_name} =~ ^[A-Za-z][A-Za-z0-9_]*$ ]]; then
+  if [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; then
     echo "---------------------------------------------------------------------------";
     echo "  platformsh Project Machine Name is not a valid project name!";
     echo "---------------------------------------------------------------------------";
   fi
 done
 
-## Grab Platform.sh environment machine name argument.
+## Grab Platform.sh Project base url argument.
 unset platformsh_project_base_url;
-while [[ ! ${platformsh_environment_name} =~ ^[A-Za-z][A-Za-z0-9_]*$ ]]; do
+while [[ ! ${platformsh_project_base_url} =~ $url_format ]]; do
 
   echo "Project base url:";
   read platformsh_project_base_url;
 
-  if [[ ! ${platformsh_project_base_url} =~ $url_regex ]]; then
+  if [[ ! ${platformsh_project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
     echo "  The Project base url is not a valid Platform.sh project link !";
     echo "---------------------------------------------------------------------------";
@@ -105,5 +111,5 @@ sudo rm -rf ${platformsh_local_project_path}/wget-log* ;
 # Replace all PROJECT_NAME with the machine name of the Platform.sh project folder name.
 grep -rl 'PROJECT_NAME' ${platformsh_local_project_path}/features | xargs sed -i "s/PROJECT_NAME/${platformsh_project_name}/g" ;
 
-# Replace all PROJECT_BASE_URL with the machine name of Platform.sh Project URL.
-grep -rl 'PROJECT_BASE_URL' ${platformsh_local_project_path}/features | xargs sed -i "s/PROJECT_BASE_URL/${platformsh_environment_name}/g" ;
+# Replace all PROJECT_BASE_URL  of Platform.sh Project URL.
+grep -rl 'PROJECT_BASE_URL' ${platformsh_local_project_path}/features | xargs sed -i "s/PROJECT_BASE_URL/${platformsh_project_base_url}/g" ;
