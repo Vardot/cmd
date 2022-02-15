@@ -21,10 +21,8 @@ echo "  #                     Behat UI Platform.sh                           #";
 echo "  ######################################################################";
 echo "                                                                        ";
 
-current_path=$(pwd);
-IFS=/ 
-current_project_name_from_path=${current_path[-1]}
-IFS= 
+current_path=$(pwd) ;
+current_project_name_from_path=${PWD##*/} ;
 
 ## Project machine name.
 project_machine_name='^[A-Za-z][A-Za-z0-9_]*$';
