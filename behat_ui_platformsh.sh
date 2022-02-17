@@ -77,7 +77,7 @@ cd $platformsh_local_project_path ;
 composer require 'drupal/behat_ui:~4.0' --dev ;
 
 ## Download platformsh_behat_ui and place target folders and files.
-version="1.0.4";
+version="1.0.5";
 if [[ -f "${platformsh_local_project_path}/${version}.tar.gz" ]]; then
   rm ${platformsh_local_project_path}/${version}.tar.gz ;
 fi
@@ -97,8 +97,12 @@ fi
 wget https://bitbucket.org/Vardot/platformsh_behat_ui/get/${version}.tar.gz;
 mkdir ${platformsh_local_project_path}/${version};
 tar -xzvf ${platformsh_local_project_path}/${version}.tar.gz --strip 1 --directory=${platformsh_local_project_path}/${version};
+
+
 ## Place features folder in its target path.
 mv ${platformsh_local_project_path}/${version}/features ${platformsh_local_project_path}/features;
+sudo chmod -R 775 ${platformsh_local_project_path}/features ;
+
 ## Place behat.yml file in its target path.
 mv ${platformsh_local_project_path}/${version}/behat.yml ${platformsh_local_project_path}/behat.yml;
 sudo rm -rf ${platformsh_local_project_path}/${version}.tar.gz ${platformsh_local_project_path}/${version} ;
