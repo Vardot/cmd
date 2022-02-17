@@ -77,7 +77,7 @@ done
 unset drupal_project_base_url;
 while [[ ! ${drupal_project_base_url} =~ $url_format ]]; do
 
-  read -p "Project base url ( https://##-####-######.###.drupal.site ): " drupal_project_base_url;
+  read -p "Project base url ( http://localhost/my_drupal_project_name ): " drupal_project_base_url;
 
   if [[ ! ${drupal_project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
@@ -138,8 +138,8 @@ mv ${drupal_local_project_path}/${version}/behat.yml ${drupal_local_project_path
 sudo rm -rf ${drupal_local_project_path}/${version}.tar.gz ${drupal_local_project_path}/${version} ;
 sudo rm -rf ${drupal_local_project_path}/wget-log* ;
 
-# Replace drupal_PROJECT_PATH with the Drupal project path.
-grep -rl "drupal_PROJECT_PATH" ${drupal_local_project_path}/features | xargs sed -i "s|drupal_PROJECT_PATH|${drupal_local_project_path}|g" ;
+# Replace DRUPAL_PROJECT_PATH with the Drupal project path.
+grep -rl "DRUPAL_PROJECT_PATH" ${drupal_local_project_path}/features | xargs sed -i "s|DRUPAL_PROJECT_PATH|${drupal_local_project_path}|g" ;
 
 # Replace PROJECT_NAME with the machine name of the Drupal project folder name.
 grep -rl "PROJECT_NAME" ${drupal_local_project_path}/features | xargs sed -i "s|PROJECT_NAME|${drupal_project_name}|g" ;
