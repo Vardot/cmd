@@ -37,47 +37,13 @@ url_format='(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%
 domain_format='[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]';
 
 ## Grab local development directory path for the project argument.
-unset platformsh_local_project_path ;
-while [[ ! -d "${platformsh_local_project_path}" ]]; do
-
-  read -p "Full local project path (${current_path}): " platformsh_local_project_path;
-
-  if [ -z "$platformsh_local_project_path" ]
-  then
-    platformsh_local_project_path=${current_path};
-  fi
-
-  if [[ ! -d "${platformsh_local_project_path}" ]]; then
-    echo "---------------------------------------------------------------------------";
-    echo "   Platform.sh full local project folder is not a valid path!";
-    echo "      This should be the full path for the root project folder";
-    echo "---------------------------------------------------------------------------";
-  fi
-done
-
-## Grab platformsh project machine name argument.
-unset platformsh_project_name ;
-while [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; do
-
-  read -p "Project machine name (${current_project_name_from_path}): " platformsh_project_name;
-
-  if [ -z "$platformsh_project_name" ]
-  then
-    platformsh_project_name=${current_project_name_from_path};
-  fi
-
-  if [[ ! ${platformsh_project_name} =~ $project_machine_name ]]; then
-    echo "---------------------------------------------------------------------------";
-    echo "  Platform.sh Project Machine Name is not a valid project name!";
-    echo "---------------------------------------------------------------------------";
-  fi
-done
+platformsh_local_project_path=${current_path};
 
 ## Grab Platform.sh Project base url argument.
 unset platformsh_project_base_url;
 while [[ ! ${platformsh_project_base_url} =~ $url_format ]]; do
 
-  read -p "Project base url ( https://##-####-######.###.platformsh.site ): " platformsh_project_base_url;
+  read -p "Project base url ( https://www.autotest-#######-##########.####.platformsh.site/): " platformsh_project_base_url;
 
   if [[ ! ${platformsh_project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
@@ -111,7 +77,7 @@ cd $platformsh_local_project_path ;
 composer require 'drupal/behat_ui:~4.0' --dev ;
 
 ## Download platformsh_behat_ui and place target folders and files.
-version="1.0.2";
+version="1.0.3";
 if [[ -f "${platformsh_local_project_path}/${version}.tar.gz" ]]; then
   rm ${platformsh_local_project_path}/${version}.tar.gz ;
 fi
@@ -137,12 +103,6 @@ mv ${platformsh_local_project_path}/${version}/features ${platformsh_local_proje
 mv ${platformsh_local_project_path}/${version}/behat.yml ${platformsh_local_project_path}/behat.yml;
 sudo rm -rf ${platformsh_local_project_path}/${version}.tar.gz ${platformsh_local_project_path}/${version} ;
 sudo rm -rf ${platformsh_local_project_path}/wget-log* ;
-
-# Replace PLATFORMSH_PROJECT_PATH with the Platform.sh project path.
-grep -rl "PLATFORMSH_PROJECT_PATH" ${platformsh_local_project_path}/features | xargs sed -i "s|PLATFORMSH_PROJECT_PATH|${platformsh_local_project_path}|g" ;
-
-# Replace PROJECT_NAME with the machine name of the Platform.sh project folder name.
-grep -rl "PROJECT_NAME" ${platformsh_local_project_path}/features | xargs sed -i "s|PROJECT_NAME|${platformsh_project_name}|g" ;
 
 # Replace PROJECT_BASE_URL of Platform.sh Project URL.
 sed -i "s|PROJECT_BASE_URL|${platformsh_project_base_url}|g" ${platformsh_local_project_path}/behat.yml;
