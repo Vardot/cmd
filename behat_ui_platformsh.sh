@@ -77,7 +77,7 @@ cd $platformsh_local_project_path ;
 composer require 'drupal/behat_ui:~4.0' --dev ;
 
 ## Download platformsh_behat_ui and place target folders and files.
-version="1.0.3";
+version="1.0.4";
 if [[ -f "${platformsh_local_project_path}/${version}.tar.gz" ]]; then
   rm ${platformsh_local_project_path}/${version}.tar.gz ;
 fi
