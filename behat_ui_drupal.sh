@@ -7,7 +7,7 @@
 ##
 ##
 ## -----------------------------------------------------------------------------
-## cd /var/www/html/
+## cd /var/www/html/myproject
 ## Run the following command.
 ## bash <(wget -O - https://raw.githubusercontent.com/Vardot/cmd/master/behat_ui_drupal.sh)
 ##------------------------------------------------------------------------------
@@ -15,14 +15,33 @@
 ##
 ################################################################################
 
-echo "                                                                        ";
-echo "  ######################################################################";
-echo "  #                     Behat UI Drupal                                #";
-echo "  ######################################################################";
-echo "                                                                        ";
+## Package Name.
+package_name="Drupal";
+
+## Behat UI package template source.
+behat_ui_template_source="https://bitbucket.org/Vardot/drupal_behat_ui/get";
+behat_ui_template_name="drupal_behat_ui";
+
+## Package template version.
+version="1.0.0" ;
 
 ## Default Selenium host.
 selenium_host='robot1.dev.in.vardot.com:4445/wd/hub';
+
+## Read the IP address, geteway and local iface.
+unset local_gateway;
+unset local_iface;
+unset local_ip;
+read -r _{,} local_gateway _ local_iface _ local_ip _ < <(ip r g 1.0.0.0) ;
+
+echo "                                                                            ";
+echo "  ###########################################################################";
+echo "    Web Interactive Command to setup Behat UI for ${package_name}";
+echo "  ###########################################################################";
+echo "    ${behat_ui_template_name} version ${version}";
+echo "  ---------------------------------------------------------------------------";
+printf '%-12s %s\n'  gateway $local_gateway iface $local_iface ip $local_ip ;
+echo "  ---------------------------------------------------------------------------";
 
 current_path=$(pwd) ;
 current_project_name_from_path=${PWD##*/} ;
@@ -37,115 +56,129 @@ url_format='(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%
 domain_format='[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]';
 
 ## Grab local development directory path for the project argument.
-unset drupal_local_project_path ;
-while [[ ! -d "${drupal_local_project_path}" ]]; do
+unset local_project_path ;
+while [[ ! -d "${local_project_path}" ]]; do
 
-  read -p "Full local project path (${current_path}): " drupal_local_project_path;
+  read -p "Full local project path (${current_path}): " local_project_path;
 
-  if [ -z "$drupal_local_project_path" ]
+  if [ -z "$local_project_path" ]
   then
-    drupal_local_project_path=${current_path};
+    local_project_path=${current_path};
   fi
 
-  if [[ ! -d "${drupal_local_project_path}" ]]; then
+  if [[ ! -d "${local_project_path}" ]]; then
     echo "---------------------------------------------------------------------------";
-    echo "   Drupal full local project folder is not a valid path!";
+    echo "   ${package_name} full local project folder is not a valid path!";
     echo "      This should be the full path for the root project folder";
     echo "---------------------------------------------------------------------------";
   fi
 done
 
-## Grab drupal project machine name argument.
-unset drupal_project_name ;
-while [[ ! ${drupal_project_name} =~ $project_machine_name ]]; do
+## Read the project machine name argument.
+unset project_name ;
+while [[ ! ${project_name} =~ $project_machine_name ]]; do
 
-  read -p "Project machine name (${current_project_name_from_path}): " drupal_project_name;
+  read -p "Project machine name (${current_project_name_from_path}): " project_name;
 
-  if [ -z "$drupal_project_name" ]
+  if [ -z "$project_name" ]
   then
-    drupal_project_name=${current_project_name_from_path};
+    project_name=${current_project_name_from_path};
   fi
 
-  if [[ ! ${drupal_project_name} =~ $project_machine_name ]]; then
+  if [[ ! ${project_name} =~ $project_machine_name ]]; then
     echo "---------------------------------------------------------------------------";
-    echo "  Drupal Project Machine Name is not a valid project name!";
+    echo "  ${package_name} Project Machine Name is not a valid project name!";
     echo "---------------------------------------------------------------------------";
   fi
 done
 
-## Grab Drupal Project base url argument.
-unset drupal_project_base_url;
-while [[ ! ${drupal_project_base_url} =~ $url_format ]]; do
+## Read the project base url argument.
+unset project_base_url;
+while [[ ! ${project_base_url} =~ $url_format ]]; do
 
-  read -p "Project base url ( http://localhost/my_drupal_project_name ): " drupal_project_base_url;
+  read -p "Project base testing url ( https://${ip}/${project_name}/docroot) ): " project_base_url;
 
-  if [[ ! ${drupal_project_base_url} =~ $url_format ]]; then
+  if [[ ! ${project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
-    echo "  The Project base url is not a valid Drupal project link !";
+    echo "  The Project base url is not a valid ${package_name} project link !";
     echo "---------------------------------------------------------------------------";
   fi
 done
 
-## Grab Selenium host domain argument.
-unset drupal_selenium_host;
-while [[ ! ${drupal_selenium_host} =~ $domain_format ]]; do
+## Read the Selenium host domain argument.
+unset selenium_host;
+while [[ ! ${selenium_host} =~ $domain_format ]]; do
 
-  read -p "Selenium Host domain ( ${selenium_host} ): " drupal_selenium_host;
+  read -p "Selenium Host domain ( ${selenium_host} ): " selenium_host;
 
-  if [ -z "$drupal_selenium_host" ]
+  if [ -z "$selenium_host" ]
   then
-    drupal_selenium_host=${selenium_host};
+    selenium_host=${selenium_host};
   fi
 
-  if [[ ! ${drupal_selenium_host} =~ $domain_format ]]; then
+  if [[ ! ${selenium_host} =~ $domain_format ]]; then
     echo "---------------------------------------------------------------------------";
-    echo "  The Project base url is not a valid Drupal project link !";
+    echo "  The Project base url is not a valid ${package_name} project link !";
     echo "---------------------------------------------------------------------------";
   fi
 done
 
 ## Change directory to the local project path.
-cd $drupal_local_project_path ;
+cd $local_project_path ;
 
 ## Add Behat UI module by composer.
 composer require 'drupal/behat_ui:~4.0' --dev ;
 
-## Download drupal_behat_ui and place target folders and files.
-version="1.0.0";
-if [[ -f "${drupal_local_project_path}/${version}.tar.gz" ]]; then
-  rm ${drupal_local_project_path}/${version}.tar.gz ;
+
+## Remove leftover or old downloaded files.
+if [[ -f "${local_project_path}/${version}.tar.gz" ]]; then
+  rm ${local_project_path}/${version}.tar.gz ;
 fi
 
-if [[ -d "${drupal_local_project_path}/${version}" ]]; then
-  sudo rm -rf ${drupal_local_project_path}/${version} ;
+## Remove leftover or old folder.
+if [[ -d "${local_project_path}/${version}" ]]; then
+  sudo rm -rf ${local_project_path}/${version} ;
 fi
 
-if [[ -f "${drupal_local_project_path}/behat.yml" ]]; then
-  rm ${drupal_local_project_path}/behat.yml;
+## Remove the old behat.yml file.
+if [[ -f "${local_project_path}/behat.yml" ]]; then
+  rm ${local_project_path}/behat.yml;
 fi
 
-if [[ -d "${drupal_local_project_path}/features" ]]; then
-  sudo rm -rf ${drupal_local_project_path}/features ;
+## Remove the old features folder.
+if [[ -d "${local_project_path}/features" ]]; then
+  sudo rm -rf ${local_project_path}/features ;
 fi
 
-wget https://bitbucket.org/Vardot/drupal_behat_ui/get/${version}.tar.gz;
-mkdir ${drupal_local_project_path}/${version};
-tar -xzvf ${drupal_local_project_path}/${version}.tar.gz --strip 1 --directory=${drupal_local_project_path}/${version};
+## Download The Behat UI template for the package.
+wget ${behat_ui_template_source}/${version}.tar.gz;
+
+## Create a temp folder using the same version value.
+mkdir ${local_project_path}/${version};
+
+## Extract the package template tar file and place it's content into the target temp version folder.
+tar -xzvf ${local_project_path}/${version}.tar.gz --strip 1 --directory=${local_project_path}/${version};
+
 ## Place features folder in its target path.
-mv ${drupal_local_project_path}/${version}/features ${drupal_local_project_path}/features;
+mv ${local_project_path}/${version}/features ${local_project_path}/features;
+
 ## Place behat.yml file in its target path.
-mv ${drupal_local_project_path}/${version}/behat.yml ${drupal_local_project_path}/behat.yml;
-sudo rm -rf ${drupal_local_project_path}/${version}.tar.gz ${drupal_local_project_path}/${version} ;
-sudo rm -rf ${drupal_local_project_path}/wget-log* ;
+mv ${local_project_path}/${version}/behat.yml ${local_project_path}/behat.yml;
 
-# Replace DRUPAL_PROJECT_PATH with the Drupal project path.
-grep -rl "DRUPAL_PROJECT_PATH" ${drupal_local_project_path}/features | xargs sed -i "s|DRUPAL_PROJECT_PATH|${drupal_local_project_path}|g" ;
+## Clean up the tar and temp folder.
+sudo rm -rf ${local_project_path}/${version}.tar.gz ${local_project_path}/${version} ;
 
-# Replace PROJECT_NAME with the machine name of the Drupal project folder name.
-grep -rl "PROJECT_NAME" ${drupal_local_project_path}/features | xargs sed -i "s|PROJECT_NAME|${drupal_project_name}|g" ;
+## Clean the wget log files. 
+sudo rm -rf ${local_project_path}/wget-log* ;
 
-# Replace PROJECT_BASE_URL of Drupal Project URL.
-sed -i "s|PROJECT_BASE_URL|${drupal_project_base_url}|g" ${drupal_local_project_path}/behat.yml;
+# Replace PROJECT_PATH with the project path.
+grep -rl "PROJECT_PATH" ${local_project_path}/features | xargs sed -i "s|PROJECT_PATH|${local_project_path}|g" ;
+
+# Replace PROJECT_NAME with the machine name of the project folder name.
+grep -rl "PROJECT_NAME" ${local_project_path}/features | xargs sed -i "s|PROJECT_NAME|${project_name}|g" ;
+
+# Replace PROJECT_BASE_URL of Project URL.
+sed -i "s|PROJECT_BASE_URL|${project_base_url}|g" ${local_project_path}/behat.yml;
 
 # Replace SELENIUM_HOST with the current selected selenium host domain.
-sed -i "s|SELENIUM_HOST|${drupal_selenium_host}|g" ${drupal_local_project_path}/behat.yml;
+sed -i "s|SELENIUM_HOST|${selenium_host}|g" ${local_project_path}/behat.yml;
