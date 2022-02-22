@@ -97,7 +97,7 @@ done
 unset project_base_url;
 while [[ ! ${project_base_url} =~ $url_format ]]; do
 
-  read -p "Project base testing url ( https://${local_ip}/${project_name}/${webroot}) ): " project_base_url;
+  read -p "Project base testing url ( http://$local_ip/${project_name}/${webroot}) ): " project_base_url;
 
   if [[ ! ${project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
