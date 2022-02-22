@@ -100,12 +100,12 @@ mkdir ${platformsh_local_project_path}/${version};
 tar -xzvf ${platformsh_local_project_path}/${version}.tar.gz --strip 1 --directory=${platformsh_local_project_path}/${version};
 
 ## Copy Behat UI settings to config/sync
-mv ${platformsh_local_project_path}/${version}/features/behat_ui.settings.yml ${platformsh_local_project_path}/config/sync/ ;
+mv ${platformsh_local_project_path}/${version}/features/behat_ui.settings.yml ${platformsh_local_project_path}/config/sync/;
 
 
 ## Place features folder in its target path.
 mkdir -p ${platformsh_local_project_path}/docroot/sites/default/files;
-mv ${platformsh_local_project_path}/${version}/features ${platformsh_local_project_path}/docroot/sites/default/files/features;
+mv ${platformsh_local_project_path}/${version}/features ${platformsh_local_project_path}/docroot/sites/default/files/;
 sudo chmod -R 775 ${platformsh_local_project_path}/docroot/sites/default/files/features;
 
 ## Place behat.yml file in its target path.
