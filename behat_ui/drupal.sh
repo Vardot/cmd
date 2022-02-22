@@ -17,6 +17,7 @@
 
 ## Package Name.
 package_name="Drupal";
+webroot="web";
 
 ## Behat UI package template source.
 behat_ui_template_source="https://bitbucket.org/Vardot/drupal_behat_ui/get";
@@ -96,7 +97,7 @@ done
 unset project_base_url;
 while [[ ! ${project_base_url} =~ $url_format ]]; do
 
-  read -p "Project base testing url ( https://${ip}/${project_name}/docroot) ): " project_base_url;
+  read -p "Project base testing url ( https://${local_ip}/${project_name}/${webroot}) ): " project_base_url;
 
   if [[ ! ${project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
