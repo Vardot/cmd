@@ -27,7 +27,7 @@ behat_ui_template_name="drupal_behat_ui";
 version="1.0.0" ;
 
 ## Default Selenium host.
-selenium_host='robot1.dev.in.vardot.com:4445/wd/hub';
+default_selenium_host='robot1.dev.in.vardot.com:4445/wd/hub';
 
 ## Read the IP address, geteway and local iface.
 unset local_gateway;
@@ -97,7 +97,7 @@ done
 unset project_base_url;
 while [[ ! ${project_base_url} =~ $url_format ]]; do
 
-  read -p "Project base testing url ( http://$local_ip/${project_name}/${webroot}) ): " project_base_url;
+  read -p "Project base testing url ( http://$local_ip/${project_name}/${webroot}) : " project_base_url;
 
   if [[ ! ${project_base_url} =~ $url_format ]]; then
     echo "---------------------------------------------------------------------------";
@@ -110,11 +110,11 @@ done
 unset selenium_host;
 while [[ ! ${selenium_host} =~ $domain_format ]]; do
 
-  read -p "Selenium Host domain ( ${selenium_host} ): " selenium_host;
+  read -p "Selenium Host domain ( ${default_selenium_host} ): " selenium_host;
 
   if [ -z "$selenium_host" ]
   then
-    selenium_host=${selenium_host};
+    selenium_host=${default_selenium_host};
   fi
 
   if [[ ! ${selenium_host} =~ $domain_format ]]; then
