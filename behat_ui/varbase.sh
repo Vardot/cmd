@@ -24,7 +24,7 @@ behat_ui_template_source="https://bitbucket.org/Vardot/varbase_behat_ui/get";
 behat_ui_template_name="varbase_behat_ui";
 
 ## Package template version.
-version="1.0.0" ;
+version="1.0.1" ;
 
 ## Default Selenium host.
 default_selenium_host='robot1.dev.in.vardot.com:4445/wd/hub';
@@ -132,8 +132,14 @@ done
 ## Change directory to the local project path.
 cd $local_project_path ;
 
+## Add needed testing packages by composer. 
+composer require --dev drupal/core-dev:~9.0
+composer require --dev drush/drush:~11.0
+composer require --dev drupal/drupal-extension:~4.0 --with-all-dependencies
+composer require --dev emuse/behat-html-formatter:^0.2.0
+
 ## Add Behat UI module by composer.
-composer require 'drupal/behat_ui:~4.0' --dev ;
+composer require --dev 'drupal/behat_ui:~4.0';
 
 
 ## Remove leftover or old downloaded files.
