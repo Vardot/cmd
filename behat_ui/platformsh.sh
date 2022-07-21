@@ -73,11 +73,17 @@ done
 ## Change directory to the local project path.
 cd $platformsh_local_project_path ;
 
+## Add needed testing packages by composer. 
+composer require --dev drupal/core-dev:~9.0
+composer require --dev drush/drush:~11.0
+composer require --dev drupal/drupal-extension:~4.0 --with-all-dependencies
+composer require --dev emuse/behat-html-formatter:^0.2.0
+
 ## Add Behat UI module by composer.
-composer require 'drupal/behat_ui:~4.0' --dev ;
+composer require --dev 'drupal/behat_ui:~4.0';
 
 ## Download platformsh_behat_ui and place target folders and files.
-version="1.0.7";
+version="1.0.8";
 if [[ -f "${platformsh_local_project_path}/${version}.tar.gz" ]]; then
   rm ${platformsh_local_project_path}/${version}.tar.gz ;
 fi
