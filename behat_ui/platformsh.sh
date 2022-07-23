@@ -81,7 +81,7 @@ composer require --dev emuse/behat-html-formatter:^0.2.0
 composer require --dev drevops/behat-screenshot
 
 ## Add Behat UI module by composer.
-composer require --dev 'drupal/behat_ui:~4.0';
+composer require --dev drupal/behat_ui:~4.0
 
 ## Download platformsh_behat_ui and place target folders and files.
 version="1.0.8";
@@ -125,3 +125,5 @@ sed -i "s|PROJECT_BASE_URL|${platformsh_project_base_url}|g" ${platformsh_local_
 
 # Replace SELENIUM_HOST with the current selected selenium host domain.
 sed -i "s|SELENIUM_HOST|${platformsh_selenium_host}|g" ${platformsh_local_project_path}/behat.yml;
+
+mv features/behat_ui.settings.yml docroot/modules/contrib/behat_ui/config/install/
