@@ -24,7 +24,7 @@ behat_ui_template_source="https://bitbucket.org/Vardot/drupal_behat_ui/get";
 behat_ui_template_name="drupal_behat_ui";
 
 ## Package template version.
-version="1.0.2" ;
+version="1.0.3" ;
 
 ## Default Selenium host.
 default_selenium_host='robot1.dev.in.vardot.com:4445/wd/hub';
