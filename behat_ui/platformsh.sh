@@ -78,6 +78,7 @@ composer require --dev drupal/core-dev:~9.0
 composer require --dev drush/drush:~11.0
 composer require --dev drupal/drupal-extension:~4.0 --with-all-dependencies
 composer require --dev emuse/behat-html-formatter:^0.2.0
+composer require --dev drevops/behat-screenshot
 
 ## Add Behat UI module by composer.
 composer require --dev 'drupal/behat_ui:~4.0';
