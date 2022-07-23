@@ -84,7 +84,7 @@ composer require --dev drevops/behat-screenshot
 composer require --dev drupal/behat_ui:~4.0
 
 ## Download platformsh_behat_ui and place target folders and files.
-version="1.0.8";
+version="1.0.9";
 if [[ -f "${platformsh_local_project_path}/${version}.tar.gz" ]]; then
   rm ${platformsh_local_project_path}/${version}.tar.gz ;
 fi
