@@ -132,8 +132,15 @@ done
 ## Change directory to the local project path.
 cd $local_project_path ;
 
-## Add needed testing packages by composer. 
-composer require --dev drupal/core-dev:~9.0
+## Delete the composer.lock file.
+rm composer.lock
+
+## Add bin direcoty to the Drupal site.
+composer config bin-dir bin
+
+## Add needed testing packages by composer.
+
+composer require --dev drupal/core-dev:~9.0 --with-all-dependencies
 composer require --dev drush/drush:~11.0
 composer require --dev drupal/drupal-extension:~4.0 --with-all-dependencies
 composer require --dev emuse/behat-html-formatter:^0.2.0
