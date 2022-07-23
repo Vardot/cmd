@@ -126,4 +126,5 @@ sed -i "s|PROJECT_BASE_URL|${platformsh_project_base_url}|g" ${platformsh_local_
 # Replace SELENIUM_HOST with the current selected selenium host domain.
 sed -i "s|SELENIUM_HOST|${platformsh_selenium_host}|g" ${platformsh_local_project_path}/behat.yml;
 
-mv features/behat_ui.settings.yml docroot/modules/contrib/behat_ui/config/install/
+# Copy the Behat UI settings file to the config install before installing the module.
+cp features/behat_ui.settings.yml docroot/modules/contrib/behat_ui/config/install/
